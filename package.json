@@ -1,0 +1,19 @@
+{
+  "name": "visual-configuration-platform",
+  "version": "0.0.1",
+  "description": "可视化项目配置",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node serve/UnityFrontUtils/server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zys8119/visual-configuration-platform.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zys8119/visual-configuration-platform/issues"
+  },
+  "homepage": "https://github.com/zys8119/visual-configuration-platform#readme"
+}
