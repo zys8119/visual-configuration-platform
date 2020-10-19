@@ -1,7 +1,7 @@
 export default {
-    a(){
+    gitModuleList(){
         return this.axios({
-            url:"/Git/Index/getBranch",
+            url:"/Git/Index/gitModuleList",
         });
     }
 }

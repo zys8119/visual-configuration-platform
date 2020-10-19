@@ -16,6 +16,56 @@ export class IndexController extends applicationController{
     }
 
     /**
+     * 获取模块列表
+     */
+    gitModuleList(){
+        this.$_success([
+            {
+                gitUrl:"https://gitlab.zhijiasoft.com",
+                userName:"xuyi",
+                packName:"pc-api",
+                branchName:"master",
+            },
+            {
+                gitUrl:"https://gitlab.zhijiasoft.com",
+                userName:"xuyi",
+                packName:"pc-alert",
+                branchName:"master",
+            },
+            {
+                gitUrl:"https://gitlab.zhijiasoft.com",
+                userName:"xuyi",
+                packName:"pc-ui",
+                branchName:"master",
+            },
+            {
+                gitUrl:"https://gitlab.zhijiasoft.com",
+                userName:"xuyi",
+                packName:"npc-router",
+                branchName:"master",
+            },
+            {
+                gitUrl:"https://gitlab.zhijiasoft.com",
+                userName:"xuyi",
+                packName:"nc-vuex",
+                branchName:"master",
+            },
+            {
+                gitUrl:"https://gitlab.zhijiasoft.com",
+                userName:"xuyi",
+                packName:"nc-serve",
+                branchName:"master",
+            },
+            {
+                gitUrl:"https://gitlab.zhijiasoft.com",
+                userName:"xuyi",
+                packName:"nc-app",
+                branchName:"master",
+            },
+        ]);
+    }
+
+    /**
      * git 拉取代码
      */
     index(){

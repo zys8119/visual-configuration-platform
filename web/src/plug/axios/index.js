@@ -29,7 +29,6 @@ export default class {
      */
     response_interceptors(){
         this.AxiosInstance.interceptors.response.use(res => {
-            console.log(res)
             if (res.status >= 200 && res.status <  300 ){
                 // 正常响应
                 // resolve(res.target);
