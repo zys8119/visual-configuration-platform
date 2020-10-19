@@ -13,7 +13,17 @@ export default new VueRouter({
         },
         {
             path:"/home",
-            component:()=>import("@/components/view/Home/HomePage")
+            component:()=>import("@/components/view/Home/HomePage"),
+            redirect:"/home/module-management",
+            children:[
+                {
+                    path:"module-management",
+                    component:()=>import("@/components/view/Home/ModuleManagement"),
+                    children:[
+
+                    ]
+                }
+            ]
         }
     ]
 })

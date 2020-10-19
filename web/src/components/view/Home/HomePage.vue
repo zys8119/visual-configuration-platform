@@ -2,18 +2,28 @@
     <div class="HomePage">
         <div class="topBanner">
             <img class="logo" :src="require('@/assets/web_logo1.png')" alt="">
-            <el-tabs class="el-tabs">
-                <el-tab-pane label="asdas"></el-tab-pane>
-                <el-tab-pane label="asdas"></el-tab-pane>
-                <el-tab-pane label="asdas"></el-tab-pane>
+            <el-tabs class="el-tabs" v-model="activeName" @tab-click="$router.push(activeName)">
+                <el-tab-pane v-for="(item,key) in tabs" :key="key" :label="item.label" :name="item.page"></el-tab-pane>
             </el-tabs>
         </div>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
 export default {
-    name: "HomePage"
+    name: "HomePage",
+    data(){
+        return {
+            tabs:[
+                {label:"模块管理", page:'module-management'},
+                {label:"主题管理", page:'theme-management'},
+                {label:"服务管理", page:'serve-management'},
+                {label:"模板管理", page:'template-management'},
+            ],
+            activeName:"module-management"
+        }
+    }
 }
 </script>
 
@@ -31,9 +41,12 @@ export default {
         /deep/ .el-tabs{
             .el-tabs__item{
                 color: #ffffff;
+                text-align: center;
+                padding: 0 20px;
                 &.is-active{
                     background-color: #ffffff;
                     color: @themeColor;
+                    font-weight: bold;
                 }
             }
             .el-tabs__active-bar{
@@ -44,6 +57,10 @@ export default {
             }
             .el-tabs__content{
                 display: none;
+            }
+            .el-tabs__nav{
+                margin: auto;
+                float: none;
             }
         }
     }
