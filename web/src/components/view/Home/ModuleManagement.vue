@@ -1,12 +1,18 @@
 <template>
     <div class="ModuleManagement">
-        asdasd
+        asdasdasdasasdasd
     </div>
 </template>
 
 <script>
 export default {
-    name: "ModuleManagement"
+    name: "ModuleManagement",
+    mounted() {
+        this.api.Git.Index.a(22)
+        //     .then(res=>{
+        //     console.log(res)
+        // })
+    }
 }
 </script>
 
