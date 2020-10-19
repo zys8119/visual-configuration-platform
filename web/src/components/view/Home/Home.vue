@@ -3,7 +3,7 @@
       <img alt="Vue logo" src="../../../assets/web_logo.png">
       <h1>欢迎使用前端可视化配置平台</h1>
       <p>
-          <el-button round>开始</el-button>
+          <el-button round @click="$router.push('/home')">开始</el-button>
       </p>
   </div>
 </template>
