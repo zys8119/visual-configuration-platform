@@ -5,6 +5,7 @@
                 <span class="title">{{ item.packName }}</span>
             </div>
             <div class="content">
+                <p class="ellipsis-1">同步状态：<span>{{ item.synStatus }}</span></p>
                 <p class="ellipsis-1">当前版本：<span>{{ item.branchName }}</span></p>
                 <p class="ellipsis-1">所属者：<span>{{ item.userName }}</span></p>
                 <p class="ellipsis-1">当前分支：<span>{{ item.branchName }}</span></p>
@@ -29,15 +30,20 @@ export default {
 </script>
 
 <style scoped lang="less">
+
 .ModuleManagement{
     display: grid;
     grid-template-columns: repeat(3,auto);
+    @media (min-width: 1600px) {
+        grid-template-columns: repeat(5,auto);
+    }
     grid-gap: @unit15;
     padding: @unit15;
     .card{
         cursor: pointer;
         .content{
             .ellipsis-1{
+                line-height: 30px;
                 &+.ellipsis-1{
                     margin-top: @unit15;
                 }
