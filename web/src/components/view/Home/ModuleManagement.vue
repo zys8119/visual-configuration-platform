@@ -9,9 +9,9 @@ export default {
     name: "ModuleManagement",
     mounted() {
         this.api.Git.Index.a(22)
-        //     .then(res=>{
-        //     console.log(res)
-        // })
+            .then(res=>{
+            console.log(res)
+        })
     }
 }
 </script>
