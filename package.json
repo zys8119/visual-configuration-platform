@@ -4,8 +4,7 @@
   "description": "可视化项目配置",
   "main": "index.js",
   "scripts": {
-    "serve": "chcp 65001 && node serve/UnityFrontUtils/server/index.js",
-    "web": "node web/node_modules/@vue/cli-service/bin/vue-cli-service.js serve"
+    "serve": "chcp 65001 && node serve/UnityFrontUtils/server/index.js"
   },
   "repository": {
     "type": "git",
