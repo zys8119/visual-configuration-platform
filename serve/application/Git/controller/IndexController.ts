@@ -32,14 +32,13 @@ export class IndexController extends applicationController{
     /**
      * 切换分支
      */
-    checkout(branchName:string = "wzh-h5", bool){
+    checkout(branchName:string = "master", bool){
         try {
             let command = `git checkout release -b ${branchName} origin/${branchName}`;// 创建并切换
             if(bool){
                 command = `git checkout ${branchName}`; // 切换
             }
             this.existsSyncDir(command).then(res=>{
-                console.log(bool,command)
                 if(bool){
                     this.pull(branchName).then(()=>{
                         this.$_success();
@@ -51,23 +50,59 @@ export class IndexController extends applicationController{
                 this.checkout(branchName, true);
             }
         }
-
     }
 
+    deleteBranch(branchName:string = "wzh-h5"){
+        try {
+            this.existsSyncDir(`git branch -d ${branchName}`).then(res=>{
+                this.$_success();
+            })
+        }catch (e){
+            this.$_success();
+        }
+    }
+
+    /**
+     * 获取分支列表
+     */
     getBranch(){
         this.existsSyncDir("git remote update origin --prune").then(()=>{
             this.existsSyncDir("git branch -a").then(res=>{
-                console.log(res
+                this.$_success(res
                     .split("\n")
-                    .map(e=>e.replace(/^\s*remotes\//img,"").split("/"))
-                )
-                this.$_success();
+                    .map(e=>
+                        e.replace(/^\s*remotes\//img,"")
+                        .split("/")).map(e=>{
+                            let result = {
+                                current:false,
+                            };
+                            let k = e[0].replace(/^\s*/,"");
+                            let val = e[1];
+                            if(e.length === 3 && val.indexOf("->") > -1){
+                                val = e[2];
+                            }
+                            if(e.length === 1){
+                                result["origin"] = k;
+                                if(k.indexOf("*") === 0){
+                                    result["origin"] = k.replace(/\*\s*/,"");
+                                    result["current"] = true;
+                                }
+                                result["type"] = 1;
+                                result["type_str"] = "本地分支";
+                            }else {
+                                result[k] = val;
+                                result["type"] = 2;
+                                result["type_str"] = "远程分支";
+                            }
+
+                            return result;
+                    }));
             });
         });
     }
 
     pull(branchName?:string){
-        return this.existsSyncDir(`git pull origin/${branchName || this.branchName}`);
+        return this.existsSyncDir(`git pull origin ${branchName || this.branchName}`);
     }
 
     /**
