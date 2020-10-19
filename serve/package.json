@@ -9,7 +9,5 @@
     "ncol": "^0.0.7",
     "pug": "^2.0.4"
   },
-  "dependencies": {
-    "vue": "^2.6.12"
-  }
+  "dependencies": {}
 }
