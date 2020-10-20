@@ -24,6 +24,7 @@ export type $sqlFieldConfigType = {
     NOT?:string | 'NULL';// 不为空
     DEFAULT?:string | `'默认值'`;// 默认值
     COMMENT?:string | `'字段备注'`;// 备注
+    enum?:string | `('男','女','中性','保密')`;// 枚举
     [key:string]:string |  $sqlFieldConfigType;
 }
 

@@ -1,6 +1,6 @@
 import {SqlModel} from "./interfaces";
-import UserModel from "./User/UserModel"
+import Module from "./Module/module";
 const SqlModelDefault:SqlModel = {
-    UserModel:UserModel
+    Module
 };
 export default SqlModelDefault;

@@ -16,10 +16,10 @@ export const mysqlConfig = <mysqlOptions>{
         user: 'root',
         password: 'root',
         port: '3306',
-        database: 'test',
+        database: 'vcp',
         prefix:""
     },
-    sqlModelAuto:false,
+    sqlModelAuto:true,
 };
 
 //服务公共设置，可写入
