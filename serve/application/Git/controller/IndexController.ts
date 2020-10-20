@@ -19,57 +19,62 @@ export class IndexController extends applicationController{
      * 获取模块列表
      */
     gitModuleList(){
-        this.$_success([
-            {
-                gitUrl:"https://gitlab.zhijiasoft.com",
-                userName:"xuyi",
-                packName:"pc-api",
-                branchName:"master",
-                synStatus:"master",
-            },
-            {
-                gitUrl:"https://gitlab.zhijiasoft.com",
-                userName:"xuyi",
-                packName:"pc-alert",
-                branchName:"master",
-                synStatus:"master",
-            },
-            {
-                gitUrl:"https://gitlab.zhijiasoft.com",
-                userName:"xuyi",
-                packName:"pc-ui",
-                branchName:"master",
-                synStatus:"master",
-            },
-            {
-                gitUrl:"https://gitlab.zhijiasoft.com",
-                userName:"xuyi",
-                packName:"npc-router",
-                branchName:"master",
-                synStatus:"master",
-            },
-            {
-                gitUrl:"https://gitlab.zhijiasoft.com",
-                userName:"xuyi",
-                packName:"nc-vuex",
-                branchName:"master",
-                synStatus:"master",
-            },
-            {
-                gitUrl:"https://gitlab.zhijiasoft.com",
-                userName:"xuyi",
-                packName:"nc-serve",
-                branchName:"master",
-                synStatus:"master",
-            },
-            {
-                gitUrl:"https://gitlab.zhijiasoft.com",
-                userName:"xuyi",
-                packName:"nc-app",
-                branchName:"master",
-                synStatus:"master",
-            },
-        ]);
+        new this.$sqlModel.Module().getPage({
+            TableName:"module",
+        })
+            .then(res=>this.$_success(res))
+            .catch(err=>this.$_error())
+        // this.$_success([
+        //     {
+        //         gitUrl:"https://gitlab.zhijiasoft.com",
+        //         userName:"xuyi",
+        //         packName:"pc-api",
+        //         branchName:"master",
+        //         synStatus:"master",
+        //     },
+        //     {
+        //         gitUrl:"https://gitlab.zhijiasoft.com",
+        //         userName:"xuyi",
+        //         packName:"pc-alert",
+        //         branchName:"master",
+        //         synStatus:"master",
+        //     },
+        //     {
+        //         gitUrl:"https://gitlab.zhijiasoft.com",
+        //         userName:"xuyi",
+        //         packName:"pc-ui",
+        //         branchName:"master",
+        //         synStatus:"master",
+        //     },
+        //     {
+        //         gitUrl:"https://gitlab.zhijiasoft.com",
+        //         userName:"xuyi",
+        //         packName:"npc-router",
+        //         branchName:"master",
+        //         synStatus:"master",
+        //     },
+        //     {
+        //         gitUrl:"https://gitlab.zhijiasoft.com",
+        //         userName:"xuyi",
+        //         packName:"nc-vuex",
+        //         branchName:"master",
+        //         synStatus:"master",
+        //     },
+        //     {
+        //         gitUrl:"https://gitlab.zhijiasoft.com",
+        //         userName:"xuyi",
+        //         packName:"nc-serve",
+        //         branchName:"master",
+        //         synStatus:"master",
+        //     },
+        //     {
+        //         gitUrl:"https://gitlab.zhijiasoft.com",
+        //         userName:"xuyi",
+        //         packName:"nc-app",
+        //         branchName:"master",
+        //         synStatus:"master",
+        //     },
+        // ]);
     }
 
     /**
