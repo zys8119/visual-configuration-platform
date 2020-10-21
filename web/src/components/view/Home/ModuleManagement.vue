@@ -16,7 +16,7 @@
         </div>
         <div class="cardFooter">
             <div class="cardFooterContent">
-                <el-button class="el-button" type="primary" round>添加模块</el-button>
+                <el-button class="el-button" type="primary" round @click="addModule">添加模块</el-button>
             </div>
         </div>
     </div>
@@ -32,6 +32,15 @@ export default {
     },
     mounted() {
         this.api.Git.Index.gitModuleList(22).then(res=>this.list = res);
+    },
+    methods:{
+        // 添加模块
+        addModule(){
+            this.$ZAlert.show({
+                title:"添加模块",
+                components:require("./Alert/AddModule")
+            })
+        }
     }
 }
 </script>
