@@ -4,12 +4,19 @@
             <el-card class="card" v-for="(item,key) in list" :key="key">
                 <div slot="header" class="clearfix">
                     <span class="title">{{ item.packName }}</span>
+                    <el-dropdown>
+                        <i class="el-icon-more-outline"></i>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>编辑</el-dropdown-item>
+                            <el-dropdown-item @click.native="deleteModule(item)">删除</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </div>
                 <div class="content">
-                    <p class="ellipsis-1">同步状态：<span>{{ item.synStatus }}</span></p>
-                    <p class="ellipsis-1">当前版本：<span>{{ item.branchName }}</span></p>
+                    <p class="ellipsis-1">同步状态：<span v-if="item.synStatus">{{ item.synStatus }}</span></p>
+                    <p class="ellipsis-1">当前版本：<span v-if="item.branchName">{{ item.branchName }}</span></p>
                     <p class="ellipsis-1">所属者：<span>{{ item.userName }}</span></p>
-                    <p class="ellipsis-1">当前分支：<span>{{ item.branchName }}</span></p>
+                    <p class="ellipsis-1">当前分支：<span v-if="item.branchName">{{ item.branchName }}</span></p>
                     <p class="ellipsis-1">地址：<span>{{ item.gitUrl }}</span></p>
                 </div>
             </el-card>
@@ -31,14 +38,37 @@ export default {
         }
     },
     mounted() {
-        this.api.Git.Index.gitModuleList(22).then(res=>this.list = res);
+        this.init();
     },
     methods:{
+        // 初始化
+        init(){
+            this.api.Git.Index.gitModuleList().then(res=>this.list = res);
+        },
         // 添加模块
         addModule(){
             this.$ZAlert.show({
                 title:"添加模块",
-                components:require("./Alert/AddModule")
+                components:require("./Alert/AddModule"),
+                _event:{
+                    save:this.init
+                }
+            })
+        },
+        // 删除模块
+        deleteModule(item){
+            this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.api.Git.Index.deleteModule(item.id).then(()=> {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    this.init();
+                });
             })
         }
     }
@@ -72,9 +102,11 @@ export default {
                 }
             }
             .clearfix{
+                display: flex;
                 .title{
                     color: @themeColor;
                     font-weight: bold;
+                    flex: 1;
                 }
             }
             &:hover{

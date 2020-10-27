@@ -16,65 +16,38 @@ export class IndexController extends applicationController{
     }
 
     /**
+     * 删除模块
+     */
+    deleteModule(){
+        new this.$sqlModel.Module().update({
+            ...this.$_body,
+            del:2,
+        }).where({id:this.$_body.id}).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
+    }
+
+    /**
+     * 添加模块
+     */
+    addModule(){
+        new this.$sqlModel.Module().insert({
+            ...this.$_body,
+            id:Date.now()
+        }).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
+    }
+
+    /**
      * 获取模块列表
      */
     gitModuleList(){
         new this.$sqlModel.Module().getPage({
             TableName:"module",
+        },function (){
+            this.where({
+                del:2,
+            },null,"!=")
         })
             .then(res=>this.$_success(res))
             .catch(err=>this.$_error())
-        // this.$_success([
-        //     {
-        //         gitUrl:"https://gitlab.zhijiasoft.com",
-        //         userName:"xuyi",
-        //         packName:"pc-api",
-        //         branchName:"master",
-        //         synStatus:"master",
-        //     },
-        //     {
-        //         gitUrl:"https://gitlab.zhijiasoft.com",
-        //         userName:"xuyi",
-        //         packName:"pc-alert",
-        //         branchName:"master",
-        //         synStatus:"master",
-        //     },
-        //     {
-        //         gitUrl:"https://gitlab.zhijiasoft.com",
-        //         userName:"xuyi",
-        //         packName:"pc-ui",
-        //         branchName:"master",
-        //         synStatus:"master",
-        //     },
-        //     {
-        //         gitUrl:"https://gitlab.zhijiasoft.com",
-        //         userName:"xuyi",
-        //         packName:"npc-router",
-        //         branchName:"master",
-        //         synStatus:"master",
-        //     },
-        //     {
-        //         gitUrl:"https://gitlab.zhijiasoft.com",
-        //         userName:"xuyi",
-        //         packName:"nc-vuex",
-        //         branchName:"master",
-        //         synStatus:"master",
-        //     },
-        //     {
-        //         gitUrl:"https://gitlab.zhijiasoft.com",
-        //         userName:"xuyi",
-        //         packName:"nc-serve",
-        //         branchName:"master",
-        //         synStatus:"master",
-        //     },
-        //     {
-        //         gitUrl:"https://gitlab.zhijiasoft.com",
-        //         userName:"xuyi",
-        //         packName:"nc-app",
-        //         branchName:"master",
-        //         synStatus:"master",
-        //     },
-        // ]);
     }
 
     /**
