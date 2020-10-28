@@ -70,25 +70,45 @@ export class IndexController extends applicationController{
     }
 
     /**
-     * 同步模块
+     * 获取模块分支
      */
-    synModule(){
+    gitModuleBranch(){
+        this.initData().then(()=>{
+            this.getBranch().then(res=>{
+                this.$_success(res);
+            });
+        })
+    }
+
+    /**
+     * 初始化数据
+     */
+    initData(){
         this.gitUrl = this.$_body.gitUrl || this.gitUrl;
         this.userName = this.$_body.userName || this.userName;
         this.branchName = this.$_body.branchName || this.branchName;
         this.packName = this.$_body.packName || this.packName;
         this.packSrc = `${this.gitDir}/${this.userName}/${this.packName}`;
-        this.index().then(()=>{
-            this.getBranch().then(res=>{
-                const packageJson  = JSON.parse(readFileSync(resolve(this.packSrc,"./package.json"),"utf8"));
-                new this.$sqlModel.Module().update({
-                    synStatus:"2",
-                    branchName:(res.find(e=>e.current) || {}).origin,
-                    version:`'${packageJson.version}'`
-                }).where({
-                    id:this.$_body.id,
-                }).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
-            })
+        return Promise.resolve()
+    }
+
+    /**
+     * 同步模块
+     */
+    synModule(){
+        this.initData().then(()=>{
+            this.index().then(()=>{
+                this.getBranch().then(res=>{
+                    const packageJson  = JSON.parse(readFileSync(resolve(this.packSrc,"./package.json"),"utf8"));
+                    new this.$sqlModel.Module().update({
+                        synStatus:"2",
+                        branchName:(res.find(e=>e.current) || {}).origin,
+                        version:`'${packageJson.version}'`
+                    }).where({
+                        id:this.$_body.id,
+                    }).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
+                })
+            });
         });
     }
 

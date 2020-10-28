@@ -35,5 +35,12 @@ export default {
             method:"post",
             data
         });
+    },
+    gitModuleBranch(data){
+        return this.axios({
+            url:"/Git/Index/gitModuleBranch",
+            method:"post",
+            data
+        });
     }
 }

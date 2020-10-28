@@ -10,6 +10,12 @@
                             <el-dropdown-item @click.native="synModule(item)">同步</el-dropdown-item>
                             <el-dropdown-item @click.native="addModule(item)">编辑</el-dropdown-item>
                             <el-dropdown-item @click.native="deleteModule(item)">删除</el-dropdown-item>
+                            <el-dropdown trigger="click"   placement="left-start">
+                                <el-dropdown-item @click.native="getBranch(item)">却换分支</el-dropdown-item>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item>同步</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -91,6 +97,13 @@ export default {
                     });
                     this.init();
                 });
+            })
+        },
+        // 获取分支
+        getBranch(item){
+            console.log(item)
+            this.api.Git.Index.gitModuleBranch(item).then(res=>{
+                console.log(res);
             })
         }
     }
