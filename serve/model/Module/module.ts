@@ -11,6 +11,7 @@ export default class extends PublicModel implements PublicModelInterface{
         synStatus:{varchar:"(255)", COMMENT:`'同步状态(1 未同步、2 已同步)'`, DEFAULT:`'1'`},
         del:{varchar:"(255)", COMMENT:`'是否删除(1 未删除、2 删除)'`, DEFAULT:`'1'`},
         version:{varchar:"(255)", COMMENT:`'模块版本号'`},
+        description:{varchar:"(255)", COMMENT:`'模块描述'`},
     };
     'CHARACTER SET' = 'utf8';
     COLLATE = `utf8_unicode_ci`;

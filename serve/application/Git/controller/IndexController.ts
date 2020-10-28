@@ -31,7 +31,8 @@ export class IndexController extends applicationController{
     addModule(){
         new this.$sqlModel.Module().insert({
             ...this.$_body,
-            id:Date.now()
+            id:Date.now(),
+            description:this.$_body.description || "",
         }).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
     }
 
@@ -41,6 +42,7 @@ export class IndexController extends applicationController{
     updateModule(){
         new this.$sqlModel.Module().update({
             ...this.$_body,
+            description:this.$_body.description || "",
         }).where({
             id:this.$_body.id,
         }).query().catch(err=>this.$_error(err)).then(()=>this.$_success());

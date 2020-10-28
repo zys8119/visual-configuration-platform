@@ -22,6 +22,7 @@
                     </el-dropdown>
                 </div>
                 <div class="content">
+                    <p class="description">{{item.description}}</p>
                     <p class="ellipsis-1">同步状态：<span v-if="item.synStatus" class="ZColor" :class="{primary:item.synStatus === '2'}">{{ item.synStatus | synStatus }}</span></p>
                     <p class="ellipsis-1">当前版本：<span v-if="item.version">{{ item.version }}</span></p>
                     <p class="ellipsis-1">所属者：<span>{{ item.userName }}</span></p>
@@ -150,6 +151,15 @@ export default {
                         padding: 0 @unit15;
                         border-radius: 5px;
                     }
+                }
+                .description{
+                    border:1px solid #d8d8d8;
+                    border-radius: 4px;
+                    margin-bottom: @unit15;
+                    padding: @unit15;
+                    background-color: #d8d8d8;
+                    font-size: 14px;
+                    color: #666666;
                 }
             }
             .clearfix{

@@ -19,9 +19,10 @@ export default new VueRouter({
                 {
                     path:"module-management",
                     component:()=>import("@/components/view/Home/ModuleManagement"),
-                    children:[
-
-                    ]
+                },
+                {
+                    path:"template-management",
+                    component:()=>import("@/components/view/Home/TemplateManagement"),
                 }
             ]
         }

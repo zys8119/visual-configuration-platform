@@ -4,6 +4,7 @@
             <el-form-item label="模块名称" required><el-input v-model="formData.packName"></el-input></el-form-item>
             <el-form-item label="仓库地址" required><el-input v-model="formData.gitUrl"></el-input></el-form-item>
             <el-form-item label="所属者" required><el-input v-model="formData.userName"></el-input></el-form-item>
+            <el-form-item label="描述"><el-input type="textarea" v-model="formData.description"></el-input></el-form-item>
         </el-form>
         <z-alert-footer>
             <el-button type="primary" @click="save">保存</el-button>
