@@ -22,7 +22,7 @@ declare module "fs" {
     namespace fs {
         interface PlatformFs{
             readdirSync(path:string):string[];
-            existsSync(path:string):string[];
+            existsSync(path:string):boolean;
             readFileSync(path:string,options?:object):any;
             readFileSync(option?:object):any;
             writeFile(file?:string, data?:any, callback?:()=>void|any):any;

@@ -1,7 +1,7 @@
 import {applicationController} from "../../../UnityFrontUtils/controller/applicationController";
 const { execSync } = require("child_process");
 const { resolve } = require("path");
-const { existsSync, mkdirSync, readFileSync, readdirSync } = require("fs");
+const { existsSync, mkdirSync, readFileSync } = require("fs");
 export class IndexController extends applicationController{
     __dir:string = resolve(__dirname,"../../../../");// 当前项目根目录
     gitDir:string = resolve(this.__dir,"gitDir");// git clone 本地存放地址
@@ -130,7 +130,13 @@ export class IndexController extends applicationController{
      * 获取PackageJson
      */
     getPackageJson(){
-        return JSON.parse(readFileSync(resolve(this.packSrc,"./package.json"),"utf8"));
+        let path = resolve(this.packSrc,"./package.json");
+        if(existsSync(path)){
+            return JSON.parse(readFileSync(path,"utf8"));
+        }
+        return {
+            version:'-',
+        };
     }
 
     /**
