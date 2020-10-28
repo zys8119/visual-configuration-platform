@@ -68,7 +68,7 @@ export default {
             this.api.Git.Index.synModule(item).then(()=> {
                 this.$message({
                     type: 'success',
-                    message: '同步成功!'
+                    message: '同步成功'
                 });
                 this.init();
             });
@@ -96,7 +96,7 @@ export default {
                 this.api.Git.Index.deleteModule(item.id).then(()=> {
                     this.$message({
                         type: 'success',
-                        message: '删除成功!'
+                        message: '删除成功'
                     });
                     this.init();
                 });
