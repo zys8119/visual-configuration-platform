@@ -23,6 +23,17 @@ export default {
             ],
             activeName:"module-management"
         }
+    },
+    mounted() {
+        this.init();
+    },
+    updated() {
+        this.init();
+    },
+    methods:{
+        init(){
+            this.activeName = this.tabs.find(e=>this.$route.path.match(new RegExp(`${e.page}`))).page;
+        }
     }
 }
 </script>
