@@ -8,7 +8,7 @@ export default class extends PublicModel implements PublicModelInterface{
         userName:{varchar:"(255)", COMMENT:`'所属者'`,},
         packName:{varchar:"(255)", COMMENT:`'包名'`,},
         branchName:{varchar:"(255)", COMMENT:`'当前本地分支'`,},
-        synStatus:{varchar:"(255)", COMMENT:`'同步状态'`,},
+        synStatus:{varchar:"(255)", COMMENT:`'同步状态(1 未同步、2 已同步)'`, DEFAULT:`'1'`},
         del:{varchar:"(255)", COMMENT:`'是否删除(1 未删除、2 删除)'`, DEFAULT:`'1'`},
     };
     'CHARACTER SET' = 'utf8';

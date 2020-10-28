@@ -13,7 +13,7 @@
                     </el-dropdown>
                 </div>
                 <div class="content">
-                    <p class="ellipsis-1">同步状态：<span v-if="item.synStatus">{{ item.synStatus }}</span></p>
+                    <p class="ellipsis-1">同步状态：<span v-if="item.synStatus">{{ item.synStatus | synStatus }}</span></p>
                     <p class="ellipsis-1">当前版本：<span v-if="item.branchName">{{ item.branchName }}</span></p>
                     <p class="ellipsis-1">所属者：<span>{{ item.userName }}</span></p>
                     <p class="ellipsis-1">当前分支：<span v-if="item.branchName">{{ item.branchName }}</span></p>
@@ -39,6 +39,14 @@ export default {
     },
     mounted() {
         this.init();
+    },
+    filters:{
+        synStatus(val){
+            return {
+                '1':"未同步",
+                '2':"已同步",
+            }[val]
+        }
     },
     methods:{
         // 初始化
