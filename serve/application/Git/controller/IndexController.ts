@@ -75,8 +75,22 @@ export class IndexController extends applicationController{
     gitModuleBranch(){
         this.initData().then(()=>{
             this.getBranch().then(res=>{
-                this.$_success(res);
+                this.$_success(res.filter(e=>e.origin));
             });
+        })
+    }
+
+    /**
+     * 切换模块分支
+     */
+    checkoutModuleBranch(){
+        this.initData().then(()=>{
+            this.checkout(this.$_body.branchName,this.$_body.branchNameType === 1).then(()=>{
+                new this.$sqlModel.Module().update({
+                    branchName:this.$_body.branchName,
+                    version:`'${this.getPackageJson().version}'`
+                }).where({id:this.$_body.id}).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
+            })
         })
     }
 
@@ -99,7 +113,7 @@ export class IndexController extends applicationController{
         this.initData().then(()=>{
             this.index().then(()=>{
                 this.getBranch().then(res=>{
-                    const packageJson  = JSON.parse(readFileSync(resolve(this.packSrc,"./package.json"),"utf8"));
+                    const packageJson  = this.getPackageJson();
                     new this.$sqlModel.Module().update({
                         synStatus:"2",
                         branchName:(res.find(e=>e.current) || {}).origin,
@@ -110,6 +124,13 @@ export class IndexController extends applicationController{
                 })
             });
         });
+    }
+
+    /**
+     * 获取PackageJson
+     */
+    getPackageJson(){
+        return JSON.parse(readFileSync(resolve(this.packSrc,"./package.json"),"utf8"));
     }
 
     /**
@@ -132,23 +153,27 @@ export class IndexController extends applicationController{
      * 切换分支
      */
     checkout(branchName:string = "master", bool){
-        try {
-            let command = `git checkout release -b ${branchName} origin/${branchName}`;// 创建并切换
-            if(bool){
-                command = `git checkout ${branchName}`; // 切换
-            }
-            this.existsSyncDir(command).then(res=>{
+        return new Promise(resolve1 => {
+            try {
+                let command = `git checkout release -b ${branchName} origin/${branchName}`;// 创建并切换
                 if(bool){
-                    this.pull(branchName).then(()=>{
-                        this.$_success();
-                    })
+                    command = `git checkout ${branchName}`; // 切换
                 }
-            })
-        }catch (err){
-            if(err.message.indexOf("already exists.")){
-                this.checkout(branchName, true);
+                this.existsSyncDir(command).then(res=>{
+                    if(bool){
+                        this.pull(branchName).then(()=>{
+                            resolve1();
+                        })
+                    }
+                })
+            }catch (err){
+                if(err.message.indexOf("already exists.")){
+                    this.checkout(branchName, true).then(()=>{
+                        resolve1();
+                    });
+                }
             }
-        }
+        })
     }
 
     deleteBranch(branchName:string = "wzh-h5"){

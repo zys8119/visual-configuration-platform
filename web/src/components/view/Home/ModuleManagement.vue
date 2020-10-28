@@ -13,7 +13,9 @@
                             <el-dropdown trigger="click"   placement="left-start">
                                 <el-dropdown-item @click.native="getBranch(item)">却换分支</el-dropdown-item>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>同步</el-dropdown-item>
+                                    <el-dropdown-item v-for="(it,key) in  branchList" :key="key" @click.native="checkout(item,it)">
+                                        <span class="ZColor" :class="{primary:it.current}">{{it.type_str}}：{{it.origin}}</span>
+                                    </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </el-dropdown-menu>
@@ -42,6 +44,7 @@ export default {
     data(){
         return {
             list:[],
+            branchList:[],
         }
     },
     mounted() {
@@ -101,10 +104,23 @@ export default {
         },
         // 获取分支
         getBranch(item){
-            console.log(item)
             this.api.Git.Index.gitModuleBranch(item).then(res=>{
-                console.log(res);
+                this.branchList = res;
             })
+        },
+        // 切换分支
+        checkout(item,it){
+            this.api.Git.Index.checkoutModuleBranch({
+                ...item,
+                branchName:it.origin,
+                branchNameType:it.type,
+            }).then(()=> {
+                this.$message({
+                    type: 'success',
+                    message: '切换成功'
+                });
+                this.init();
+            });
         }
     }
 }

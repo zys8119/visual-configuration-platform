@@ -42,5 +42,12 @@ export default {
             method:"post",
             data
         });
+    },
+    checkoutModuleBranch(data){
+        return this.axios({
+            url:"/Git/Index/checkoutModuleBranch",
+            method:"post",
+            data
+        });
     }
 }
