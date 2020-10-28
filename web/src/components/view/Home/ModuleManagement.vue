@@ -7,6 +7,7 @@
                     <el-dropdown>
                         <i class="el-icon-more-outline"></i>
                         <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click.native="synModule(item)">同步</el-dropdown-item>
                             <el-dropdown-item @click.native="addModule(item)">编辑</el-dropdown-item>
                             <el-dropdown-item @click.native="deleteModule(item)">删除</el-dropdown-item>
                         </el-dropdown-menu>
@@ -14,7 +15,7 @@
                 </div>
                 <div class="content">
                     <p class="ellipsis-1">同步状态：<span v-if="item.synStatus">{{ item.synStatus | synStatus }}</span></p>
-                    <p class="ellipsis-1">当前版本：<span v-if="item.branchName">{{ item.branchName }}</span></p>
+                    <p class="ellipsis-1">当前版本：<span v-if="item.version">{{ item.version }}</span></p>
                     <p class="ellipsis-1">所属者：<span>{{ item.userName }}</span></p>
                     <p class="ellipsis-1">当前分支：<span v-if="item.branchName">{{ item.branchName }}</span></p>
                     <p class="ellipsis-1">地址：<span>{{ item.gitUrl }}</span></p>
@@ -52,6 +53,16 @@ export default {
         // 初始化
         init(){
             this.api.Git.Index.gitModuleList().then(res=>this.list = res);
+        },
+        // 同步模块
+        synModule(item){
+            this.api.Git.Index.synModule(item).then(()=> {
+                this.$message({
+                    type: 'success',
+                    message: '同步成功!'
+                });
+                this.init();
+            });
         },
         // 添加模块
         addModule(row){

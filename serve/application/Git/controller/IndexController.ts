@@ -1,7 +1,7 @@
 import {applicationController} from "../../../UnityFrontUtils/controller/applicationController";
 const { execSync } = require("child_process");
 const { resolve } = require("path");
-const { existsSync, mkdirSync } = require("fs");
+const { existsSync, mkdirSync, readFileSync } = require("fs");
 export class IndexController extends applicationController{
     __dir:string = resolve(__dirname,"../../../../");// 当前项目根目录
     gitDir:string = resolve(this.__dir,"gitDir");// git clone 本地存放地址
@@ -62,17 +62,42 @@ export class IndexController extends applicationController{
     }
 
     /**
+     * 同步模块
+     */
+    synModule(){
+        this.gitUrl = this.$_body.gitUrl || this.gitUrl;
+        this.userName = this.$_body.userName || this.userName;
+        this.branchName = this.$_body.branchName || this.branchName;
+        this.packName = this.$_body.packName || this.packName;
+        this.packSrc = `${this.gitDir}/${this.userName}/${this.packName}`;
+        this.index().then(()=>{
+            this.getBranch().then(res=>{
+                const packageJson  = JSON.parse(readFileSync(resolve(this.packSrc,"./package.json"),"utf8"));
+                new this.$sqlModel.Module().update({
+                    synStatus:"2",
+                    branchName:(res.find(e=>e.current) || {}).origin,
+                    version:`'${packageJson.version}'`
+                }).where({
+                    id:this.$_body.id,
+                }).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
+            })
+        });
+    }
+
+    /**
      * git 拉取代码
      */
     index(){
-        if(!existsSync(resolve(this.packSrc,"../"))){
-           mkdirSync(resolve(this.packSrc,"../"));
-        }
-        this.gitClone(this.packName, this.userName).then(() => {
-            this.pull().then(()=>{
-                this.$_success();
-            })
-        });
+        return new Promise((resolve1, reject) => {
+            if(!existsSync(resolve(this.packSrc,"../"))){
+                mkdirSync(resolve(this.packSrc,"../"));
+            }
+            this.gitClone(this.packName, this.userName).then(() => {
+                this.pull().then(()=>{
+                    resolve1();
+                })
+            });
+        })
     }
 
     /**
@@ -112,13 +137,14 @@ export class IndexController extends applicationController{
      * 获取分支列表
      */
     getBranch(){
-        this.existsSyncDir("git remote update origin --prune").then(()=>{
-            this.existsSyncDir("git branch -a").then(res=>{
-                this.$_success(res
-                    .split("\n")
-                    .map(e=>
-                        e.replace(/^\s*remotes\//img,"")
-                        .split("/")).map(e=>{
+        return new Promise((resolve1, reject) => {
+            this.existsSyncDir("git remote update origin --prune").then(()=>{
+                this.existsSyncDir("git branch -a").then(res=>{
+                    resolve1(res
+                        .split("\n")
+                        .map(e=>
+                            e.replace(/^\s*remotes\//img,"")
+                                .split("/")).map(e=>{
                             let result = {
                                 current:false,
                             };
@@ -142,9 +168,10 @@ export class IndexController extends applicationController{
                             }
 
                             return result;
-                    }));
+                        }))
+                });
             });
-        });
+        })
     }
 
     pull(branchName?:string){
