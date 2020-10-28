@@ -536,6 +536,9 @@ export default class applicationControllerClass extends PublicController impleme
             });
             console.error(new Error(msg));
         }
+        if(Object.prototype.toString.call(msg) === "[object Error]"){
+            msg = msg.message;
+        }
         this.$_success(msg,sendData,code,true)
     }
     $_puppeteer(url:string,jsContent:any){

@@ -8,21 +8,21 @@
                         <i class="el-icon-more-outline"></i>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item @click.native="synModule(item)">同步</el-dropdown-item>
-                            <el-dropdown-item @click.native="addModule(item)">编辑</el-dropdown-item>
-                            <el-dropdown-item @click.native="deleteModule(item)">删除</el-dropdown-item>
                             <el-dropdown trigger="click"   placement="left-start">
-                                <el-dropdown-item @click.native="getBranch(item)">却换分支</el-dropdown-item>
+                                <el-dropdown-item @click.native="getBranch(item)">切换分支</el-dropdown-item>
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item v-for="(it,key) in  branchList" :key="key" @click.native="checkout(item,it)">
                                         <span class="ZColor" :class="{primary:it.current}">{{it.type_str}}：{{it.origin}}</span>
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
+                            <el-dropdown-item @click.native="addModule(item)">编辑</el-dropdown-item>
+                            <el-dropdown-item @click.native="deleteModule(item)">删除</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
                 <div class="content">
-                    <p class="description">{{item.description}}</p>
+                    <p class="description">描述：<br>{{item.description}}</p>
                     <p class="ellipsis-1">同步状态：<span v-if="item.synStatus" class="ZColor" :class="{primary:item.synStatus === '2'}">{{ item.synStatus | synStatus }}</span></p>
                     <p class="ellipsis-1">当前版本：<span v-if="item.version">{{ item.version }}</span></p>
                     <p class="ellipsis-1">所属者：<span>{{ item.userName }}</span></p>
