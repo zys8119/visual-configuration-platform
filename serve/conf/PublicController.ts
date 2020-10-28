@@ -6,7 +6,30 @@
  * 该字段存在，且类型为方法时，将被默认为拦截器调用
  */
 import {ControllerInitDataOptions} from "../UnityFrontUtils/typeStript";
+import { resolve } from "path";
+import {readdirSync, statSync} from "fs";
 class Interceptor implements ControllerInitDataOptions{
+    readdirSync(path: string):any {
+        let resUlt = [];
+        resUlt = resUlt.concat(readdirSync(path).map(name=>{
+            const childrenPath = resolve(path,name);
+            const is_file = statSync(childrenPath).isFile();
+            const type = is_file ? "file" : "directory";
+            let children = [];
+            if(!is_file){
+                children = this.readdirSync(childrenPath);
+            }
+            return {
+                name:name,
+                path:childrenPath,
+                children,
+                type,
+                is_file,
+            }
+        }));
+        return resUlt;
+    }
+
     $_success(msg?: any, sendData?: any, code?: number): void {
     }
     $_error(msg?: any, sendData?: any, code?: number): void {

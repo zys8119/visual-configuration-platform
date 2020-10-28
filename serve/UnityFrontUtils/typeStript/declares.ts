@@ -29,6 +29,11 @@ declare module "fs" {
             writeFileSync(file?:string, data?:any, options?:any):any;
             mkdir(path?:string, options?:fs_mkdir_options, callback ?:()=>void):any;
             mkdirSync(path?:string, options?:fs_mkdir_options, callback ?:()=>void):any;
+            statSync(path?:string):statInterface;
+        }
+        interface statInterface {
+            isFile?():boolean;
+            isDirectory?():boolean;
         }
     }
     const fs:fs.PlatformFs;

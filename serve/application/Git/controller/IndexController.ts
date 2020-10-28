@@ -1,7 +1,7 @@
 import {applicationController} from "../../../UnityFrontUtils/controller/applicationController";
 const { execSync } = require("child_process");
 const { resolve } = require("path");
-const { existsSync, mkdirSync, readFileSync } = require("fs");
+const { existsSync, mkdirSync, readFileSync, readdirSync } = require("fs");
 export class IndexController extends applicationController{
     __dir:string = resolve(__dirname,"../../../../");// 当前项目根目录
     gitDir:string = resolve(this.__dir,"gitDir");// git clone 本地存放地址
@@ -57,7 +57,15 @@ export class IndexController extends applicationController{
                 del:2,
             },null,"!=")
         })
-            .then(res=>this.$_success(res))
+            .then(res=>{
+                const gitDir = this.readdirSync(this.gitDir);
+                this.$_success(res.map(e=>{
+                    if(e.synStatus === '2'){
+                        e.synStatus = gitDir.find(d=>d.name === e.userName && d.children.find(dd=>dd.name === e.packName)) ? '2':'1';
+                    }
+                    return e;
+                }));
+            })
             .catch(err=>this.$_error())
     }
 
