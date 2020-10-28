@@ -22,7 +22,7 @@
                     </el-dropdown>
                 </div>
                 <div class="content">
-                    <p class="ellipsis-1">同步状态：<span v-if="item.synStatus">{{ item.synStatus | synStatus }}</span></p>
+                    <p class="ellipsis-1">同步状态：<span v-if="item.synStatus" class="ZColor" :class="{primary:item.synStatus === '2'}">{{ item.synStatus | synStatus }}</span></p>
                     <p class="ellipsis-1">当前版本：<span v-if="item.version">{{ item.version }}</span></p>
                     <p class="ellipsis-1">所属者：<span>{{ item.userName }}</span></p>
                     <p class="ellipsis-1">当前分支：<span v-if="item.branchName">{{ item.branchName }}</span></p>
