@@ -36,6 +36,17 @@ export class IndexController extends applicationController{
     }
 
     /**
+     * 更新模块
+     */
+    updateModule(){
+        new this.$sqlModel.Module().update({
+            ...this.$_body,
+        }).where({
+            id:this.$_body.id,
+        }).query().catch(err=>this.$_error(err)).then(()=>this.$_success());
+    }
+
+    /**
      * 获取模块列表
      */
     gitModuleList(){

@@ -7,7 +7,7 @@
                     <el-dropdown>
                         <i class="el-icon-more-outline"></i>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>编辑</el-dropdown-item>
+                            <el-dropdown-item @click.native="addModule(item)">编辑</el-dropdown-item>
                             <el-dropdown-item @click.native="deleteModule(item)">删除</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -23,7 +23,7 @@
         </div>
         <div class="cardFooter">
             <div class="cardFooterContent">
-                <el-button class="el-button" type="primary" round @click="addModule">添加模块</el-button>
+                <el-button class="el-button" type="primary" round @click="addModule(null)">添加模块</el-button>
             </div>
         </div>
     </div>
@@ -46,10 +46,13 @@ export default {
             this.api.Git.Index.gitModuleList().then(res=>this.list = res);
         },
         // 添加模块
-        addModule(){
+        addModule(row){
             this.$ZAlert.show({
-                title:"添加模块",
+                title:row? "编辑模块":"添加模块",
                 components:require("./Alert/AddModule"),
+                props:{
+                    row:()=>row
+                },
                 _event:{
                     save:this.init
                 }

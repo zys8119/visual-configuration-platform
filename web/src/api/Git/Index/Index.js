@@ -15,6 +15,13 @@ export default {
             data
         });
     },
+    updateModule(data){
+        return this.axios({
+            url:"/Git/Index/updateModule",
+            method:"post",
+            data
+        });
+    },
     deleteModule(id){
         return this.axios({
             url:"/Git/Index/deleteModule",

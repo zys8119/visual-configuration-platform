@@ -14,10 +14,16 @@
 <script>
 export default {
     name: "AddModule",
+    props:{
+        row:{type:Object,default:null}
+    },
     data(){
         return {
             formData:{}
         }
+    },
+    mounted() {
+        if(this.row){ this.formData = {...this.row}}
     },
     methods:{
         // 保存
@@ -25,6 +31,14 @@ export default {
             if(this.$utils.is_S(this.formData.packName)){return this.$message.error("请输入模块名称")}
             if(this.$utils.is_S(this.formData.gitUrl)){return this.$message.error("请输入仓库地址")}
             if(this.$utils.is_S(this.formData.userName)){return this.$message.error("请输入所属者")}
+            if(this.row){
+                this.api.Git.Index.updateModule(this.formData).then(()=>{
+                    this.$message({type:"success",message:"保存成功"});
+                    this.$emit("save");
+                    this.$ZAlert.hide();
+                })
+                return ;
+            }
             this.api.Git.Index.addModule(this.formData).then(()=>{
                 this.$message({type:"success",message:"保存成功"});
                 this.$emit("save");
